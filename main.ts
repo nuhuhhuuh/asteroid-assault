@@ -105,7 +105,7 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
 let hahahaimfromtheothertem: Sprite = null
 let projectile: Sprite = null
 let hahahimfromthisteamhaha: Sprite = null
-game.showLongText("Avoid the Red Spaceships and use the A Button to launch projectiles. Win by getting 10+ Points.", DialogLayout.Full)
+game.showLongText("Avoid the Red Spaceships and use the A Button to launch missiles. Win by getting 10+ Points.", DialogLayout.Full)
 scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
