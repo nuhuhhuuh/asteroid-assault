@@ -16,7 +16,7 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . c b a c c b b b c . . . 
         . . . . c b b a a 6 b c . . . . 
         . . . . . . b 6 6 c c . . . . . 
-        `, hahahimfromthisteamhaha, 0, -100)
+        `, player_sprite, 0, -100)
     animation.runImageAnimation(
     projectile,
     [img`
@@ -85,13 +85,6 @@ sprites.onOverlap(SpriteKind.Enemy, SpriteKind.Projectile, function (sprite, oth
     sprites.destroy(otherSprite, effects.disintegrate, 500)
     music.play(music.melodyPlayable(music.baDing), music.PlaybackMode.UntilDone)
 })
-info.onCountdownEnd(function () {
-    if (info.score() <= 10) {
-        game.gameOver(true)
-    } else {
-        game.gameOver(false)
-    }
-})
 info.onLifeZero(function () {
     game.gameOver(false)
 })
@@ -100,10 +93,10 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSp
     info.changeLifeBy(-1)
     music.play(music.melodyPlayable(music.wawawawaa), music.PlaybackMode.UntilDone)
 })
-let hahahaimfromtheothertem: Sprite = null
+let enemy_sprites: Sprite = null
 let projectile: Sprite = null
-let hahahimfromthisteamhaha: Sprite = null
-game.showLongText("Avoid the Red Spaceships and use the A Button to launch missiles. Win by getting 10+ Points.", DialogLayout.Full)
+let player_sprite: Sprite = null
+game.showLongText("Avoid the Red Spaceships and use the A Button to launch missiles. Try to get the most points and spend the longest time in the game!", DialogLayout.Full)
 scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -226,7 +219,7 @@ scene.setBackgroundImage(img`
     3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
     3333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333333
     `)
-hahahimfromthisteamhaha = sprites.create(img`
+player_sprite = sprites.create(img`
     . . . . . . . c d . . . . . . . 
     . . . . . . . c d . . . . . . . 
     . . . . . . . c d . . . . . . . 
@@ -244,15 +237,14 @@ hahahimfromthisteamhaha = sprites.create(img`
     8 8 8 8 8 8 8 8 6 6 6 9 6 6 8 8 
     8 8 8 8 8 8 8 8 6 6 6 6 9 6 8 8 
     `, SpriteKind.Player)
-controller.moveSprite(hahahimfromthisteamhaha, 100, 0)
-hahahimfromthisteamhaha.setPosition(86, 111)
-hahahimfromthisteamhaha.setStayInScreen(true)
+controller.moveSprite(player_sprite, 100, 0)
+player_sprite.setPosition(86, 111)
+player_sprite.setStayInScreen(true)
 info.setScore(0)
 info.setLife(3)
-info.startCountdown(60)
 music.play(music.stringPlayable("E B C5 A B G A F ", 120), music.PlaybackMode.LoopingInBackground)
 game.onUpdateInterval(500, function () {
-    hahahaimfromtheothertem = sprites.create(img`
+    enemy_sprites = sprites.create(img`
         e e 2 4 2 2 2 2 e e c c c c c c 
         e e 2 2 4 2 2 2 e e c c c c c c 
         . e e 2 4 2 2 2 2 e e c c c c . 
@@ -270,7 +262,7 @@ game.onUpdateInterval(500, function () {
         . . . . . . . d c . . . . . . . 
         . . . . . . . d c . . . . . . . 
         `, SpriteKind.Enemy)
-    hahahaimfromtheothertem.setPosition(randint(0, 160), 0)
-    hahahaimfromtheothertem.setVelocity(0, randint(0, 100))
-    hahahaimfromtheothertem.setBounceOnWall(false)
+    enemy_sprites.setPosition(randint(0, 160), 0)
+    enemy_sprites.setVelocity(0, randint(0, 100))
+    enemy_sprites.setBounceOnWall(false)
 })
