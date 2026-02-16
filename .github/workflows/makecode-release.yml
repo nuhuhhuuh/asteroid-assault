@@ -23,6 +23,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install MakeCode
+        # Uses default PowerShell on Windows self-hosted runners
         run: |
           npm install -g pxt
           pxt target arcade
@@ -58,9 +59,10 @@ jobs:
           Copy-Item ./built/binary.uf2 binary-p0.uf2
 
       - name: Bundle all
+        # Concatenates binary UF2 files without corrupting them
+        # Note: -AsByteStream is used for PowerShell 6+
         run: |
-          # Use Get-Content to concatenate binary files in PowerShell
-          Get-Content binary-*.uf2 -Raw | Set-Content ./built/arcade.uf2 -Value
+          Get-Content binary-*.uf2 -AsByteStream -Raw | Set-Content ./built/arcade.uf2 -AsByteStream
 
       - name: Upload bundled
         uses: actions/upload-release-asset@v1.0.1
