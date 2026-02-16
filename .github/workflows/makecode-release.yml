@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: self-hosted
-    # Fixes the "Resource not accessible by integration" error
+    # Required for uploading to releases
     permissions:
       contents: write 
 
@@ -65,12 +65,11 @@ jobs:
           Copy-Item ./built/binary.uf2 binary-p0.uf2
 
       - name: Bundle all
-        # Concatenates binary files safely using PowerShell 7 syntax
         run: |
           Get-Content binary-*.uf2 -AsByteStream -Raw | Set-Content ./built/arcade.uf2 -AsByteStream
 
-      - name: Upload bundled
-        # Replaced deprecated upload action with the modern standard
+      - name: Upload Release Asset
+        # This modern action replaces the failing upload-release-asset
         uses: softprops/action-gh-release@v2
         with:
           files: ./built/arcade.uf2
