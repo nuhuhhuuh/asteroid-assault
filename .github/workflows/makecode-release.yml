@@ -4,9 +4,9 @@ on:
   release:
     types:
       - created
+
 jobs:
   build:
-
     runs-on: self-hosted
 
     strategy:
@@ -14,52 +14,55 @@ jobs:
         node-version: [18.x]
 
     steps:
-    - name: Debug Path
-      run: |
-            echo $PATH  # Linux
-            echo %PATH% #
-      - uses: actions/checkout@v4
-      - name: Set PowerShell Execution Policy
-        run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-        shell: bash
-      - name: install node.js ${{ matrix.node-version }}
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node-version }}
-      - name: install makecode
+
+      - name: Install MakeCode
         run: |
           npm install -g pxt
           pxt target arcade
-      - name: build js
+
+      - name: Build JS
         run: |
           pxt clean
           pxt install
           pxt build --cloud
-      - name: build D51
+
+      - name: Build D51
         continue-on-error: true
         run: |
           pxt clean
           pxt install --hw samd51
           pxt build --hw samd51 --cloud
           cp ./built/binary.uf2 binary-d51.uf2
-      - name: build F4
+
+      - name: Build F4
         continue-on-error: true
         run: |
           pxt clean
           pxt install --hw stm32f401
           pxt build --hw stm32f401 --cloud
           cp ./built/binary.uf2 binary-f4.uf2
-      - name: build P0
+
+      - name: Build P0
         continue-on-error: true
         run: |
           pxt clean
           pxt install --hw rpi
           pxt build --hw rpi --cloud
           cp ./built/binary.uf2 binary-p0.uf2
-      - name: bundle all
+
+      - name: Bundle all
         run: |
-          cat binary-*.uf2 > built/arcade.uf2
-      - name: upload bundled
+          # Use shell-native concatenation
+          cat binary-*.uf2 > ./built/arcade.uf2
+
+      - name: Upload bundled
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
