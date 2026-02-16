@@ -1,4 +1,5 @@
 [![MakeCode Arcade Release](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/makecode-release.yml/badge.svg)](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/makecode-release.yml)
+[![Summarize new issues](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/summary.yml/badge.svg)](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/summary.yml)
 
 > Open this page at [https://nuhuhhuuh.github.io/space-invaders/](https://nuhuhhuuh.github.io/space-invaders/)
 
