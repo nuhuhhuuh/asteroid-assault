@@ -8,15 +8,17 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    # This block is critical for fixing the "Resource not accessible" error
     permissions:
-      contents: write # Needed to upload assets to a release
-    defaults:
-      run:
-        shell: pwsh
+      contents: write 
 
     strategy:
       matrix:
         node-version: [18.x]
+    
+    defaults:
+      run:
+        shell: pwsh
 
     steps:
       - name: Checkout code
