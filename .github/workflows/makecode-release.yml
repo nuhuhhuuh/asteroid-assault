@@ -39,7 +39,7 @@ jobs:
           pxt clean
           pxt install --hw samd51
           pxt build --hw samd51 --cloud
-          cp ./built/binary.uf2 binary-d51.uf2
+          Copy-Item ./built/binary.uf2 binary-d51.uf2
 
       - name: Build F4
         continue-on-error: true
@@ -47,7 +47,7 @@ jobs:
           pxt clean
           pxt install --hw stm32f401
           pxt build --hw stm32f401 --cloud
-          cp ./built/binary.uf2 binary-f4.uf2
+          Copy-Item ./built/binary.uf2 binary-f4.uf2
 
       - name: Build P0
         continue-on-error: true
@@ -55,12 +55,12 @@ jobs:
           pxt clean
           pxt install --hw rpi
           pxt build --hw rpi --cloud
-          cp ./built/binary.uf2 binary-p0.uf2
+          Copy-Item ./built/binary.uf2 binary-p0.uf2
 
       - name: Bundle all
         run: |
-          # Use shell-native concatenation
-          cat binary-*.uf2 > ./built/arcade.uf2
+          # Use Get-Content to concatenate binary files in PowerShell
+          Get-Content binary-*.uf2 -Raw | Set-Content ./built/arcade.uf2 -Value
 
       - name: Upload bundled
         uses: actions/upload-release-asset@v1.0.1
