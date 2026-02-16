@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Set PowerShell Execution Policy
         run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-        shell: pwsh
+        shell: powershell
       - name: install node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
