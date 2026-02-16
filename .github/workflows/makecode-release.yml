@@ -8,6 +8,10 @@ on:
 jobs:
   build:
     runs-on: self-hosted
+    # Setting the default shell for all steps in this job to PowerShell 7
+    defaults:
+      run:
+        shell: pwsh
 
     strategy:
       matrix:
@@ -23,7 +27,6 @@ jobs:
           node-version: ${{ matrix.node-version }}
 
       - name: Install MakeCode
-        # Uses default PowerShell on Windows self-hosted runners
         run: |
           npm install -g pxt
           pxt target arcade
@@ -58,14 +61,10 @@ jobs:
           pxt build --hw rpi --cloud
           Copy-Item ./built/binary.uf2 binary-p0.uf2
 
-       - name: Bundle all
-        # Use this version if you have PowerShell 6 or 7 (pwsh) installed
+      - name: Bundle all
+        # PowerShell 7 uses -AsByteStream instead of -Encoding Byte
         run: |
           Get-Content binary-*.uf2 -AsByteStream -Raw | Set-Content ./built/arcade.uf2 -AsByteStream
-        
-        # OR use this version if you only have Windows PowerShell 5.1 (powershell)
-        # run: |
-        #   Get-Content binary-*.uf2 -Encoding Byte -Raw | Set-Content ./built/arcade.uf2 -Encoding Byte
 
       - name: Upload bundled
         uses: actions/upload-release-asset@v1.0.1
