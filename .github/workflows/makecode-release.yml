@@ -14,6 +14,10 @@ jobs:
         node-version: [18.x]
 
     steps:
+    - name: Debug Path
+      run: |
+            echo $PATH  # Linux
+            echo %PATH% #
       - uses: actions/checkout@v4
       - name: Set PowerShell Execution Policy
         run: Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
