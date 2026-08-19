@@ -1,5 +1,8 @@
 [![MakeCode Arcade Release](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/makecode-release.yml/badge.svg)](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/makecode-release.yml)
 [![Summarize new issues](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/summary.yml/badge.svg)](https://github.com/nuhuhhuuh/asteroid-assault/actions/workflows/summary.yml)
+Hi! Welcome to asteroid assault. This is a clone of Galaga made in Microsoft MakeCode Arcade
+
+
 
 > Open this page at [https://nuhuhhuuh.github.io/space-invaders/](https://nuhuhhuuh.github.io/space-invaders/)
 
