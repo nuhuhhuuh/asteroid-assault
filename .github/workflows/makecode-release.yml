@@ -1,77 +1,69 @@
 name: MakeCode Arcade Release
 
-on: 
+on:
   release:
     types:
       - created
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Required for uploading to releases
     permissions:
-      contents: write 
-
-    defaults:
-      run:
-        shell: pwsh
-
-    strategy:
-      matrix:
-        node-version: [18.x]
+      contents: write  # Required for gh release upload
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v5
+      - name: install node.js 22
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
 
-      - name: Install MakeCode
+      - name: install makecode
         run: |
           npm install -g pxt
           pxt target arcade
 
-      - name: Build JS
+      - name: build js
         run: |
           pxt clean
           pxt install
           pxt build --cloud
 
-      - name: Build D51
+      - name: build D51
         continue-on-error: true
         run: |
           pxt clean
           pxt install --hw samd51
           pxt build --hw samd51 --cloud
-          Copy-Item ./built/binary.uf2 binary-d51.uf2
+          cp ./built/binary.uf2 binary-d51.uf2
 
-      - name: Build F4
+      - name: build F4
         continue-on-error: true
         run: |
           pxt clean
           pxt install --hw stm32f401
           pxt build --hw stm32f401 --cloud
-          Copy-Item ./built/binary.uf2 binary-f4.uf2
+          cp ./built/binary.uf2 binary-f4.uf2
 
-      - name: Build P0
+      - name: build P0
         continue-on-error: true
         run: |
           pxt clean
           pxt install --hw rpi
           pxt build --hw rpi --cloud
-          Copy-Item ./built/binary.uf2 binary-p0.uf2
+          cp ./built/binary.uf2 binary-p0.uf2
 
-      - name: Bundle all
+      - name: bundle all
         run: |
-          Get-Content binary-*.uf2 -AsByteStream -Raw | Set-Content ./built/arcade.uf2 -AsByteStream
+          cat binary-*.uf2 > ./built/arcade.uf2
 
-      - name: Upload Release Asset
-        # This modern action replaces the failing upload-release-asset
-        uses: softprops/action-gh-release@v2
-        with:
-          files: ./built/arcade.uf2
+      - name: Upload Release Assets
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          gh release upload $TAG_NAME \
+            built/arcade.uf2 \
+            binary-d51.uf2 \
+            binary-f4.uf2 \
+            binary-p0.uf2 \
+            --clobber
